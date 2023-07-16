@@ -1,0 +1,186 @@
+<!-- display_sheet.html template -->
+
+<!-- Inheriting the properties of base.html template -->
+{% extends "App/base.html" %}
+
+{% block title %}Display Sheet{% endblock %}
+
+<!-- Main starts -->
+{% block content %}
+
+    <style type="text/css" scoped>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 1px solid #DDD;
+        }
+
+        tr:hover {
+            background-color: #D6EEEE;
+        }
+
+        h1 {
+            display: block;
+            font-size: 2em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+            color: #002e5b;
+            text-align: center;
+        }
+
+        .pagination {
+            height: 30px;
+            padding-top: 10px;
+
+            text-align: center;
+        }
+
+        .button_a {
+            font: bold 14px Arial;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            color: #333333;
+            padding: 2px 6px 2px 6px;
+            border-top: 1px solid #CCCCCC;
+            border-right: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+            border-left: 1px solid #CCCCCC;
+        }
+
+        a.btn {
+            -webkit-appearance: button;
+            -moz-appearance: button;
+            appearance: button;
+        }
+
+        .btn {
+            background-color: #0080ff;
+            border: none;
+            color: black;
+
+            text-align: center;
+            font-size: 15px;
+            margin: 4px 2px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #002e5b;
+            color: white;
+        }
+
+        /* If the screen size is 1200px wide or more, set the font-size to 80px */
+        @media (min-width: 1200px) {
+            .responsive-font {
+                font-size: 22px;
+            }
+            .responsive-font2 {
+                font-size: 16px;
+            }
+        }
+
+        /* If the screen size is smaller than 1200px, set the font-size to 80px */
+        @media (max-width: 1199.98px) {
+            .responsive-font {
+                font-size: 16px;
+            }
+            .responsive-font2 {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+    <br>
+
+    <!-- Code starts for displaying Company Name, sheet name and file name -->
+    <div class="row" style="font-weight: bold;">
+        <div class="col-md-4 col-lg-4 col-sm-6">
+            {% if columns %}
+                {% for column in columns %}
+                    <h2 class="responsive-font">Company Name: {{ column }}</h2>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            {% if sheet_name %}
+                <h2 class="responsive-font">Sheet Name: {{ sheet_name }}</h2>
+            {% endif %}
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            {% if file_name %}
+                <h2 class="responsive-font">File Name: {{ file_name }}</h2>
+            {% endif %}
+        </div>
+
+    </div>
+    <!-- Code ends for displaying Company Name, sheet name and file name -->
+    <br>
+    <!-- Displaying records starts -->
+    {% if t_header and data %}
+        <div class="table-responsive">
+            <table class="table" style="font-weight: bold;">
+                <thead>
+                    <tr>
+                        {% for column in t_header %}
+                            <th style="background-color: #002e5b; font-weight: bold; color: white;" class="responsive-font2">{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr>
+                            {% for value in row %}
+                                <td style="font-weight: bold;" class="responsive-font2">{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Displaying records ends -->
+
+        <!-- Pagination Code starts -->
+        <div class="pagination" style="margin-left: auto; margin-right: auto;">
+            <span class="step-links">
+                {% if data.has_previous %}
+                    <a href="?page=1" class="button_a btn">&laquo; first</a>&nbsp;&nbsp;
+                    <a href="?page={{ data.previous_page_number }}" class="button_a btn">&lsaquo; previous</a>&nbsp;&nbsp;
+                {% endif %}
+
+                <span class="current-page">
+                    <b>Page {{ data.number }} of {{ data.paginator.num_pages }}.</b>
+                </span>
+
+                {% if data.has_next %}
+                    &nbsp;&nbsp;<a href="?page={{ data.next_page_number }}" class="button_a btn">next &rsaquo;</a>
+                    &nbsp;&nbsp;<a href="?page={{ data.paginator.num_pages }}" class="button_a btn">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        <!-- Pagination Code ends -->
+
+    {% endif %}
+
+    <!-- JQuery File Links -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+{% endblock %}
+<!-- Main ends -->

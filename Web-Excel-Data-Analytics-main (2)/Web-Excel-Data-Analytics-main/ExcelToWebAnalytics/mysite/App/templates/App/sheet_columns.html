@@ -1,0 +1,137 @@
+<!-- sheet_columns.html template -->
+
+<!-- Inheriting the properties of base.html template -->
+{% extends "App/base.html" %}
+
+{% block title %}Sheet Columns{% endblock %}
+
+<!-- Main starts -->
+{% block content %}
+    <style type="text/css" scoped>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 1px solid #DDD;
+        }
+
+        tr:hover {
+            background-color: #D6EEEE;
+        }
+
+        h1 {
+            display: block;
+            font-size: 2em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+            color: #002e5b;
+            text-align: center;
+        }
+
+        .pagination {
+            height: 30px;
+            padding-top: 10px;
+
+            text-align: center;
+        }
+
+        .button_a {
+            font: bold 14px Arial;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            color: #333333;
+            padding: 2px 6px 2px 6px;
+            border-top: 1px solid #CCCCCC;
+            border-right: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+            border-left: 1px solid #CCCCCC;
+        }
+
+        a.btn {
+            -webkit-appearance: button;
+            -moz-appearance: button;
+            appearance: button;
+        }
+
+        .btn {
+            background-color: #0080ff;
+            border: none;
+            color: black;
+
+            text-align: center;
+            font-size: 15px;
+            margin: 4px 2px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #002e5b;
+            color: white;
+        }
+
+        /* If the screen size is 1200px wide or more, set the font-size to 80px */
+        @media (min-width: 1200px) {
+            .responsive-font {
+                font-size: 22px;
+            }
+
+            .responsive-font2 {
+                font-size: 16px;
+            }
+        }
+
+        /* If the screen size is smaller than 1200px, set the font-size to 80px */
+        @media (max-width: 1199.98px) {
+            .responsive-font {
+                font-size: 16px;
+            }
+
+            .responsive-font2 {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <br>
+    <div class="row" style="font-weight: bold;">
+        <div class="col-md-4 col-lg-4 col-sm-6">
+            {% if columns %}
+                {% for column in columns %}
+                    <h2 class="responsive-font">Company Name: {{ column }}</h2>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            {% if sheet_name %}
+                <h2 class="responsive-font">Sheet Name: {{ sheet_name }}</h2>
+            {% endif %}
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            {% if file_name %}
+                <h2 class="responsive-font">File Name: {{ file_name }}</h2>
+            {% endif %}
+        </div>
+    </div>
+
+<hr style="border: solid black 1px; margin-top: 15px; margin: 23px 0 0 -50px; z-index: 999; position: relative;">
+    <br>
+
+    <h2 class="responsive-font">Data Present in {{ sheet_name }}:</h2>
+<br>
+    <!-- Dynamic Button code -->
+    {% for col_name in grouped_df %}
+        <a href="{% url 'sheet_columns' file_id=file_id file_name=file_name sheet_name=sheet_name col_name=col_name %}">
+            <button class="btn" type="submit" id="{{ col_name }}-button" name={{col_name}}>{{ col_name }}</button>
+        </a>
+    {% endfor %}
+
+{% endblock %}
+<!-- Main ends -->
